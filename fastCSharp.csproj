@@ -1,0 +1,493 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CFB1DF3D-689B-4452-AC4E-1711A6840E3A}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>fastCSharp</RootNamespace>
+    <AssemblyName>fastCSharp</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="algorithm\hashCode.cs" />
+    <Compile Include="algorithm\quickSort.cs" />
+    <Compile Include="algorithm\topologySort.cs" />
+    <Compile Include="array.cs" />
+    <Compile Include="config\include.cs" />
+    <Compile Include="config\sql.cs" />
+    <Compile Include="fastCSharp.cSharper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="fastCSharp.fastCSharp.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="fifoPriorityQueue.cs" />
+    <Compile Include="hashCode.cs" />
+    <Compile Include="net\tcpClient.cs" />
+    <Compile Include="net\tcpServer.cs" />
+    <Compile Include="net\tcpServerAsynchronous.cs" />
+    <Compile Include="net\topSocket.cs" />
+    <Compile Include="pointer.cs" />
+    <Compile Include="reflection\assembly.cs" />
+    <Compile Include="reflection\converter.cs" />
+    <Compile Include="reflection\createField.cs" />
+    <Compile Include="reflection\createProperty.cs" />
+    <Compile Include="reflection\fieldGetSetValue.cs" />
+    <Compile Include="reflection\fieldGetValue.cs" />
+    <Compile Include="reflection\fieldInfo.cs" />
+    <Compile Include="reflection\fieldSetValue.cs" />
+    <Compile Include="reflection\methodDelegate.cs" />
+    <Compile Include="reflection\propertyCopyer.cs" />
+    <Compile Include="reflection\propertyGetter.cs" />
+    <Compile Include="reflection\propertySetter.cs" />
+    <Compile Include="reflection\staticMethodDelegate.cs" />
+    <Compile Include="run.cs" />
+    <Compile Include="setup\constructor.cs" />
+    <Compile Include="setup\cSharp\memberFilter.cs" />
+    <Compile Include="setup\cSharp\tcpBase.cs" />
+    <Compile Include="setup\cSharp\tcpCall.cs" />
+    <Compile Include="setup\cSharp\tcpServer.cs" />
+    <Compile Include="setup\cSharp\template\tcpCall.cs" />
+    <Compile Include="setup\cSharp\template\tcpServer.cs" />
+    <Compile Include="setup\cSharp\template\urlQuery.cs" />
+    <Compile Include="setup\cSharp\urlQuery.cs" />
+    <Compile Include="setup\cSharp\sqlTable.cs" />
+    <Compile Include="setup\cSharp\template\sqlTable.cs" />
+    <Compile Include="setup\define.cs" />
+    <Compile Include="setup\fieldInfo.cs" />
+    <Compile Include="setup\memberGroup.cs" />
+    <Compile Include="setup\parameterInfo.cs" />
+    <Compile Include="setup\propertyInfo.cs" />
+    <Compile Include="setup\tcpRegister.cs" />
+    <Compile Include="sql\cache\copy.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\counter\counter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\counter\counterCache.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\counter\identityCounter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\counter\primaryKeyCounter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\counter\queue.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\counter\queueDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\counter\queueExpression.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\counter\queueExpressionCustom.cs" />
+    <Compile Include="sql\cache\counter\queueList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\ICustom.cs" />
+    <Compile Include="sql\cache\listOrderLadyValue.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\queue.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\queueList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\queueListOrderLady.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\sqlTool.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\whole\dictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\whole\dictionaryDictionaryWhere.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\whole\dictionaryList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\whole\dictionaryListOrderLady.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\whole\dictionaryListOrderLadyWhere.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\whole\dictionaryListWhere.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\whole\eventCache.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\whole\identityArray.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\whole\identityArrayWhere.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\whole\identityCache.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\whole\identityDictionaryWhere.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\whole\identityMemberMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\whole\identityTree.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\whole\key.cs" />
+    <Compile Include="sql\cache\whole\primaryKey.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\whole\timeOutOrderLady.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\cache\whole\timeOutOrderLadyWhere.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\expressionCall.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\client.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\column.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\columnCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\connection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\expression\BinaryExpression.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\expression\ConditionalExpression.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\expression\constantConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\expression\ConstantExpression.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\expression\converter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\expression\convertExpression.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\expression\Expression.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\expression\expressionConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\expression\expressionType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\expression\fieldExpression.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\expression\lambdaExpression.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\expression\logicConstantExpression.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\expression\MemberExpression.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\expression\MethodCallExpression.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\expression\ParameterExpression.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\expression\propertyExpression.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\expression\UnaryExpression.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\msSql\constantConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\msSql\converter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\msSql\expressionConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\msSql\selectQuery.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\msSql\sql2000.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\msSql\sql2005.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\msSql\sql2008.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\msSql\sqlDbType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\selectQuery.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\sqlDbType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\table.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sql\typeInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="threading\asynchronous.cs" />
+    <Compile Include="bitMap.cs" />
+    <Compile Include="charStream.cs" />
+    <Compile Include="config\web.cs" />
+    <Compile Include="delegate.cs" />
+    <Compile Include="diagnostics\job.cs" />
+    <Compile Include="diagnostics\process.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dictionary.cs" />
+    <Compile Include="DotNet3\ExtensionAttribute.cs" />
+    <Compile Include="DotNet3\HashSet.cs" />
+    <Compile Include="file.cs" />
+    <Compile Include="keyValue.cs" />
+    <Compile Include="reflection\type.cs" />
+    <Compile Include="setup\cSharp\ajax.cs" />
+    <Compile Include="setup\cSharp\copy.cs" />
+    <Compile Include="setup\cSharp\cSharper.cs" />
+    <Compile Include="setup\history.cs" />
+    <Compile Include="setup\cSharp\member.cs" />
+    <Compile Include="setup\cSharp\memberInfo.cs" />
+    <Compile Include="setup\cSharp\memberMap.cs" />
+    <Compile Include="setup\cSharp\serialize.cs" />
+    <Compile Include="setup\cSharp\serializeVersion.cs" />
+    <Compile Include="setup\cSharp\template\ajax.cs" />
+    <Compile Include="setup\cSharp\template\copy.cs" />
+    <Compile Include="setup\cSharp\template\memberMap.cs" />
+    <Compile Include="setup\cSharp\template\pub.cs" />
+    <Compile Include="setup\cSharp\template\serialize.cs" />
+    <Compile Include="setup\memberFilter.cs" />
+    <Compile Include="setup\remoteType.cs" />
+    <Compile Include="setup\test.cs" />
+    <Compile Include="subString.cs" />
+    <Compile Include="template\array.cs" />
+    <Compile Include="template\iCollection.cs" />
+    <Compile Include="template\iEnumerable.cs" />
+    <Compile Include="template\list.cs" />
+    <Compile Include="template\mergeSort.cs" />
+    <Compile Include="template\number.cs" />
+    <Compile Include="template\quickSort.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="template\rangeSort.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="template\sortIndex.cs" />
+    <Compile Include="template\topSort.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="collection.cs" />
+    <Compile Include="config\pub.cs" />
+    <Compile Include="config\setup.cs" />
+    <Compile Include="date.cs" />
+    <Compile Include="directory.cs" />
+    <Compile Include="domainUnload.cs" />
+    <Compile Include="dynamicArray.cs" />
+    <Compile Include="Enum.cs" />
+    <Compile Include="fixedMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="hashBytes.cs" />
+    <Compile Include="iCollection.cs" />
+    <Compile Include="iEnumerable.cs" />
+    <Compile Include="list.cs" />
+    <Compile Include="log.cs" />
+    <Compile Include="memory.cs" />
+    <Compile Include="memoryStream.cs" />
+    <Compile Include="net\webClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="nullValue.cs" />
+    <Compile Include="number.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Program.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="pub.cs" />
+    <Compile Include="reflection\memberInfo.cs" />
+    <Compile Include="reflection\methodInfo.cs" />
+    <Compile Include="setup\ignore.cs" />
+    <Compile Include="setup\sqlMember.cs" />
+    <Compile Include="setup\auto.cs" />
+    <Compile Include="setup\cSharp\coder.cs" />
+    <Compile Include="setup\cSharp\simpleTemplate.cs" />
+    <Compile Include="setup\cSharp\treeBuilder.cs" />
+    <Compile Include="setup\error.cs" />
+    <Compile Include="setup\memberInfo.cs" />
+    <Compile Include="setup\memberType.cs" />
+    <Compile Include="setup\methodInfo.cs" />
+    <Compile Include="setup\template.cs" />
+    <Compile Include="setup\treeBuilder.cs" />
+    <Compile Include="setup\ui.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="setup\ui.designer.cs">
+      <DependentUpon>ui.cs</DependentUpon>
+    </Compile>
+    <Compile Include="stackFrame.cs" />
+    <Compile Include="staticDictionary.cs" />
+    <Compile Include="staticHash.cs" />
+    <Compile Include="staticHashIndex.cs" />
+    <Compile Include="staticHashSet.cs" />
+    <Compile Include="stream.cs" />
+    <Compile Include="string.cs" />
+    <Compile Include="stringBuilder.cs" />
+    <Compile Include="threading\identity.cs" />
+    <Compile Include="threading\interlocked.cs" />
+    <Compile Include="threading\lockCheck.cs" />
+    <Compile Include="threading\readWriteLock.cs" />
+    <Compile Include="threading\task.cs" />
+    <Compile Include="threading\taskInfo.cs" />
+    <Compile Include="threading\thread.cs" />
+    <Compile Include="threading\threadPool.cs" />
+    <Compile Include="threading\timerTask.cs" />
+    <Compile Include="unmanaged.cs" />
+    <Compile Include="unsafer\array.cs" />
+    <Compile Include="unsafer\memory.cs" />
+    <Compile Include="unsafer\number.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="unsafer\stream.cs" />
+    <Compile Include="unsafer\String.cs" />
+    <Compile Include="uri.cs" />
+    <Compile Include="web\ajax.cs" />
+    <Compile Include="web\cookie.cs" />
+    <Compile Include="web\formQuery.cs" />
+    <Compile Include="web\html.cs" />
+    <Compile Include="web\htmlNode.cs" />
+    <Compile Include="web\http.cs" />
+    <Compile Include="win32\kernel32.cs" />
+    <Compile Include="win32\psapi.cs" />
+    <Compile Include="win32\safeHandles\safeLocalMemHandle.cs" />
+    <Compile Include="win32\safeHandles\safeThreadHandle.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="fastCSharp.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="setup\deploy\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="setup\ui.resx">
+      <DependentUpon>ui.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if exist $(ProjectDir)bin\Release\fastCSharp.exe $(ProjectDir)bin\Release\fastCSharp.exe $(ProjectName) $(ProjectDir) $(TargetPath) $(TargetName)</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>if exist $(ProjectDir)bin\Release\fastCSharp.exe $(ProjectDir)bin\Release\fastCSharp.exe $(ProjectDir)</PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

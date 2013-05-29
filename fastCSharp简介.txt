@@ -1,0 +1,82 @@
+在算法相同的情况下，运行效率最好的程序是怎么产生的？我知道那一定是硬编码的。但是硬编码开发时间最长，维护成本最高，最容易出错。所以没有多少人会一直坚守这个阵营。
+我们需要降低开发成本，提高程序的可维护性。所以编程语言一直在朝着开发效率方面不断的进化，抽象能力越来越强。一般来说，编程语言的抽象能力越强，意味着代码量越少，程序的可维护性越高。与此同时，程序的运行效率也是越来越低。
+到底是选择运行效率，还是选择开发效率？对很多人来说，这是个纠结的问题。人们的选择总是多样化的，有的人抛弃了运行效率，有的人抛弃了开发效率，有的人选择多种语言相互调和。
+当然我也要做出自己的选择，那么它就是C#，因为不论是运行效率还是开发效率，它都能做到很不错。
+我采取的方案是自动化+硬编码，自动化的实现方式是静态代码生成，硬编码主要针对于静态代码生成的模板程序。
+我创建这个项目，目的是为了集思广益，更好的使用C#，打造一个“开发+运行”效率双优的开源框架，所以项目命名为fastCSharp。
+由于我个人基本上只有web开发经验，所以我贡献的代码部分包括web开发部分，没有桌面应用部分，其它的就靠大家贡献了。
+代码贡献者请注意：为了解决部分桌面应用平台升级问题，这个项目决定兼容.net framework2.0。
+
+我个人贡献的内容主要包括五个方面：
+1、数据集合操作支持.net2.0的链式编程体验（此部分现已迁移完毕）。
+* 链式编程的核心思想是想到什么就点什么，程序书写思路更流畅。但要注意的是不要把程序写成一行，对于带参数的函数调用，最好是一行一个点，否则异常了都不知道哪里出的问题，比如：
+                return diantou.dataProxy.questionTopic.getLinkIds(id)
+                    .getArray(value => diantou.dataProxy.question.get(value))
+                    .getHash(value => value.bestAnswerId)
+                    .getArray(value => diantou.dataProxy.answer.get(value))
+                    .getFind(value => value != null)
+                    .group(value => value.userId)
+                    .getArray(value => new KeyValuePair<diantou.dataProxy.user, int>(diantou.dataProxy.user.get(value.Key), value.Value.Count))
+                    .group(value => value.Key.grade0)
+                    .getArray(value => new userStat
+                    {
+                        grade0 = value.Key,
+                        count = value.Value.Count,
+                        path = topic.path.bestAnswer,
+                        users = value.Value.rangeSort((left, right) => right.Value - left.Value, 0, 6)
+                            .getArray(user => diantou.dataProxy.user.get(user.Key, userId))
+                    });
+2、基于.net元数据的静态代码生成器(此部分现已迁移完毕，下面会有相关介绍)。
+3、我常用的几种C#程序模板，包括快速序列化、TCP网络通讯、SQL操作实体类、Web视图、单元测试等。
+* 数据序列化一般用于网络通讯，非文本数据对象的序列化效率是.net的50倍以上。
+* TCP网络通讯调用和调用本地函数一样简单。比如我配置好网络服务参数：
+        public enum enumType
+        {
+            [showjim.config.tcpCall.server(Register = showjim.config.setup.register.DataProxy, IsRegisterOnly = true, VerifyFileName = showjim.config.setup.pub.VerifyFileName, ClientCount = 500, IsAsynchronous = false, IsCompress = false)]
+            DataProxy,
+        }
+然后定义了一个网络函数：
+    [showjim.setup.attribute.tcpCall(server = showjim.config.tcpCall.server.enumType.DataProxy)]
+    public partial class favorite : diantou.dataModel.favorite.showjimCode.proxy<favorite>, showjim.sys.setup.Copy<favorite>
+    {
+        [showjim.setup.attribute.tcpCall]
+        private static favorite[] GetUser(int id, int pageSize, int currentPage, int userId, out int count)
+        {
+            favorite[] values = GetUsers(id, userId);
+            array.page page = new array.page(count = values.length(), pageSize, currentPage);
+            return values.sub(page.SkipCount, page.CurrentPageSize).toArray()
+                .getArray(value => value.setUser(userId));
+        }
+    }
+网络调用就像下面这么简单(多一个.client)：
+        protected diantou.dataProxy.favorite[] MyFavorite
+        {
+            get
+            {
+                return diantou.dataProxy.favorite.tcpCall.client.GetUser(CurrentUser.id, PageSize, query.page, CurrentUserId, out ItemCount);
+            }
+        }
+* SQL实体类只提供单表操作，但是提供细节操作，比如只更新某一字段。多表操作建议使用缓存模式（毕竟内存比人工优化便宜），采用链式编程处理。不过缓存模式不适应于数据量比较大的单机应用，我想单机应用一般也不会有多大数据量吧。
+* Web视图数据实现按需取值(html模板用到什么取什么)，紧凑拼接，无带宽浪费，不使用反射。比如我现在访问的http://www.51nod.com/today.html#!type=all，未压缩的页面数据只有1.55K，普通的ajax数据格式就算压缩了也比这个大。
+* 另外还有URL查询字符串的自动解析功能，不用自己去转换查询参数Fomr["XXX"]，参数或者字段定义什么类型就会自己接受什么类型。
+4、与Web视图配套的js类库，包括数据驱动界面的实现、ajax功能、html编辑器、简单的筛选器、以及一些常用功能。
+* 数据驱动界面，这个需要体验一下，比如在未登录的状态下访问http://www.51nod.com/today.html#!type=all，在浏览器地址栏输入
+javascript:alert(Showjim.PageView.SkinValue.header.Set({focus:{count:1,isCurrent:1}}));
+或者在调试器里执行
+Showjim.PageView.SkinValue.header.Set({focus:{count:1,isCurrent:1}});
+可以看到界面的变化。
+5、一个简易的web服务器，实现部分了http1.1。
+* www.51nod.com就是用这个做的web服务器，功能还有待完善。
+前3个可应用于桌面，后两个应用于web，其实web服务器有时候也能应用于桌面或某些代理应用。
+
+这里介绍一下代码生成器。
+很多人认为代码生成==ORM。这里必须要纠正一下这个观念，ORM只是代码生成的一种应用场景。代码生成是一种自动化的实现，同时也是一种抽象方式，就好像面向对象也是一种抽象方式。
+静态代码生成的实现方式也是多样的，最简单的模板是写程序直接拼接字符串，还有用VS自带的T4模板，一般来说都是面向文本文件的生成。
+我使用的代码生成器有三个特点：
+1、它的C#程序模板也是可编译的C#程序，不是文本文件。所以编写模板的时候，确定性的程序可以得到IDE的支持，包括错误提示、重构等。
+2、它的模板与数据是分离的，它的输入参数主要是.net元数据和自定义属性组成视图，类似于网站概念里面的界面与程序分离。
+3、它可以在编译事件中执行，无需界面操作。
+在我的项目里，代码生成可以说是无处不在，有的时候是为了取代反射改善运行效率，有的时候是为了更方便的编写程序，有的时候是为了自动单元测试...那你将是为了什么呢？
+
+我贡献的内容属于基础框架，不关联业务逻辑，所以没有几分钟开发一个XXX系统的能力。那个属于业务建模的范围，但是我希望这个框架能够助你快速实现模型。
+使用这个框架搭建一般的网站，主要的工作量在于编写业务逻辑和提供数据视图。
