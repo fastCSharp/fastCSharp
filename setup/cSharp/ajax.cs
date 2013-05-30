@@ -2580,6 +2580,15 @@ namespace fastCSharp.setup.cSharp
                 return node.Type == jsonNode.nodeType.Null ? null : node.String;
             }
             /// <summary>
+            /// 未知类型成员换成
+            /// </summary>
+            /// <param name="node">字符串反序列化节点</param>
+            /// <returns>数据对象</returns>
+            public static object ToObject(jsonNode node)
+            {
+                return node;
+            }
+            /// <summary>
             /// 获取TryParse值
             /// </summary>
             /// <typeparam name="valueType">数据类型</typeparam>
@@ -3015,6 +3024,7 @@ namespace fastCSharp.setup.cSharp
                     return (func<jsonNode, object>)Delegate.CreateDelegate(typeof(func<jsonNode, object>), typeof(reflectionNodeParser).GetMethod("getEnum", BindingFlags.Static | BindingFlags.NonPublic).MakeGenericMethod(type));
                 }
                 if (memberType.IsString) return getString;
+                if (type == typeof(object)) return ToObject;
                 return getObjectByType(type);
             }
             /// <summary>
@@ -3433,6 +3443,11 @@ namespace fastCSharp.setup.cSharp
                     getter = (func<jsonNode, valueType>)(Delegate)(func<jsonNode, string>)reflectionNodeParser.GetString;
                     return;
                 }
+                if (type == typeof(object))
+                {
+                    getter = (func<jsonNode, valueType>)(Delegate)(func<jsonNode, object>)reflectionNodeParser.ToObject;
+                    return;
+                }
                 setMemberGroup();
             }
         }
@@ -3699,7 +3714,7 @@ namespace fastCSharp.setup
         {
             get
             {
-                return IsString || IsChar || Type.IsEnum || IsTryParse || IsParseJson;
+                return IsString || IsChar || Type.IsEnum || IsTryParse || IsParseJson || IsObject;
             }
         }
         /// <summary>

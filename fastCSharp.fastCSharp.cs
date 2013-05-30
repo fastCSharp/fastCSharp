@@ -69994,6 +69994,7 @@ namespace fastCSharp.algorithm
                             if (node.Type == fastCSharp.setup.cSharp.ajax.jsonNode.nodeType.Null) value.encoding = default(string);
                             else
                             {
+
                                 value.encoding = node.String;
 
 
@@ -70010,6 +70011,7 @@ namespace fastCSharp.algorithm
                             if (node.Type == fastCSharp.setup.cSharp.ajax.jsonNode.nodeType.Null) value.streamBufferLength = default(int);
                             else
                             {
+
 
 
 
@@ -70039,6 +70041,7 @@ namespace fastCSharp.algorithm
 
 
 
+
                                 if (node.Type == fastCSharp.setup.cSharp.ajax.jsonNode.nodeType.Int) value.pageSize = (int)node.Int;
                                 else
                                 {
@@ -70058,6 +70061,7 @@ namespace fastCSharp.algorithm
                             if (node.Type == fastCSharp.setup.cSharp.ajax.jsonNode.nodeType.Null) value.maxEnumArraySize = default(int);
                             else
                             {
+
 
 
 
@@ -70087,6 +70091,7 @@ namespace fastCSharp.algorithm
 
 
 
+
                                 if (node.Type == fastCSharp.setup.cSharp.ajax.jsonNode.nodeType.Int) value.taskThreadCount = (int)node.Int;
                                 else
                                 {
@@ -70106,6 +70111,7 @@ namespace fastCSharp.algorithm
                             if (node.Type == fastCSharp.setup.cSharp.ajax.jsonNode.nodeType.Null) value.taskMaxThreadCount = default(int);
                             else
                             {
+
 
 
 
@@ -70135,6 +70141,7 @@ namespace fastCSharp.algorithm
 
 
 
+
                                 if (node.Type == fastCSharp.setup.cSharp.ajax.jsonNode.nodeType.Int) value.lockCheckMinutes = (int)node.Int;
                                 else
                                 {
@@ -70154,6 +70161,7 @@ namespace fastCSharp.algorithm
                             if (node.Type == fastCSharp.setup.cSharp.ajax.jsonNode.nodeType.Null) value.defaultThreadPoolStackSize = default(int);
                             else
                             {
+
 
 
 
@@ -70183,6 +70191,7 @@ namespace fastCSharp.algorithm
 
 
 
+
                                 if (node.Type == fastCSharp.setup.cSharp.ajax.jsonNode.nodeType.Int) value.tinyThreadPoolStackSize = (int)node.Int;
                                 else
                                 {
@@ -70207,6 +70216,7 @@ namespace fastCSharp.algorithm
 
 
 
+
                                 if (node.Type == fastCSharp.setup.cSharp.ajax.jsonNode.nodeType.Int) value.tinyThreadCount = (int)node.Int;
                                 else
                                 {
@@ -70226,6 +70236,7 @@ namespace fastCSharp.algorithm
                             if (node.Type == fastCSharp.setup.cSharp.ajax.jsonNode.nodeType.Null) value.WorkPath = default(string);
                             else
                             {
+
                                 value.WorkPath = node.String;
 
 
@@ -70242,6 +70253,7 @@ namespace fastCSharp.algorithm
                             if (node.Type == fastCSharp.setup.cSharp.ajax.jsonNode.nodeType.Null) value.LogPath = default(string);
                             else
                             {
+
                                 value.LogPath = node.String;
 
 
@@ -70258,6 +70270,7 @@ namespace fastCSharp.algorithm
                             if (node.Type == fastCSharp.setup.cSharp.ajax.jsonNode.nodeType.Null) value.CachePath = default(string);
                             else
                             {
+
                                 value.CachePath = node.String;
 
 
@@ -70274,6 +70287,7 @@ namespace fastCSharp.algorithm
                             if (node.Type == fastCSharp.setup.cSharp.ajax.jsonNode.nodeType.Null) value.IsDebug = default(bool);
                             else
                             {
+
 
 
                                 value.IsDebug = node.Bool;
@@ -70298,6 +70312,7 @@ namespace fastCSharp.algorithm
 
 
 
+
                                 {
                                     if (node.Type != fastCSharp.setup.cSharp.ajax.jsonNode.nodeType.List) fastCSharp.log.Default.Throw(currentMemberName + " 不可枚举", true, false);
                                     list<fastCSharp.setup.cSharp.ajax.jsonNode> nodes = node.List;
@@ -70308,6 +70323,7 @@ namespace fastCSharp.algorithm
                                         if (arrayNode.Type == fastCSharp.setup.cSharp.ajax.jsonNode.nodeType.Null) array[++arrayIndex] = default(string);
                                         else
                                         {
+
                                             array[++arrayIndex] = arrayNode.String;
 
 

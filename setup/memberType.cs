@@ -45,6 +45,13 @@ namespace fastCSharp.setup
             }
         }
         /// <summary>
+        /// 是否object
+        /// </summary>
+        public bool IsObject
+        {
+            get { return Type == typeof(object); }
+        }
+        /// <summary>
         /// 是否字符串
         /// </summary>
         public bool IsString

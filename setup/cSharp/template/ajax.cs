@@ -227,6 +227,10 @@ namespace fastCSharp.setup.cSharp.template
                             if (node.Type == fastCSharp.setup.cSharp.ajax.jsonNode.nodeType.Null) value.@MemberName = default(@MemberType.FullName);
                             else
                             {
+                                #region IF MemberType.IsObject
+                                value.@MemberName = /*NOTE*/(pub)(object)/*NOTE*/node;
+                                #endregion IF MemberType.IsObject
+
                                 #region IF MemberType.IsString
                                 value.@MemberName = /*NOTE*/(pub)(object)/*NOTE*/node.String;
                                 #endregion IF MemberType.IsString
@@ -291,6 +295,10 @@ namespace fastCSharp.setup.cSharp.template
                                         if (arrayNode.Type == fastCSharp.setup.cSharp.ajax.jsonNode.nodeType.Null) array[++arrayIndex] = default(@NotNullType.FullName);
                                         else
                                         {
+                                            #region IF IsObject
+                                            array[++arrayIndex] = /*NOTE*/(@FullName)(object)/*NOTE*/arrayNode;
+                                            #endregion IF IsObject
+
                                             #region IF IsString
                                             array[++arrayIndex] = /*NOTE*/(@FullName)(object)/*NOTE*/arrayNode.String;
                                             #endregion IF IsString

@@ -13105,6 +13105,26 @@ namespace fastCSharp.setup.cSharp
                     fastCSharp.setup.memberType _value3_ = _value2_.MemberType;
                     if (_value3_ != null)
                     {
+                    if (_value3_.IsObject)
+                    {
+                        _if_ = true;
+                    }
+                }
+                }
+            if (_if_)
+            {
+            _code_.Add(@"
+                                value.");
+            _code_.Add(_value2_.MemberName);
+            _code_.Add(@" = node;");
+            }
+            _code_.Add(@"
+");
+            _if_ = false;
+                {
+                    fastCSharp.setup.memberType _value3_ = _value2_.MemberType;
+                    if (_value3_ != null)
+                    {
                     if (_value3_.IsString)
                     {
                         _if_ = true;
@@ -13480,6 +13500,18 @@ namespace fastCSharp.setup.cSharp
             _code_.Add(@");
                                         else
                                         {");
+            _if_ = false;
+                    if (_value3_.IsObject)
+                    {
+                        _if_ = true;
+                }
+            if (_if_)
+            {
+            _code_.Add(@"
+                                            array[++arrayIndex] = arrayNode;");
+            }
+            _code_.Add(@"
+");
             _if_ = false;
                     if (_value3_.IsString)
                     {
