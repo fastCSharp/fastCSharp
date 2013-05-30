@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("北京摩恩互联网有限责任公司")]
 [assembly: AssemblyProduct("fastCSharp")]
-[assembly: AssemblyCopyright("Copyright © 北京摩恩互联网有限责任公司 2012")]
+[assembly: AssemblyCopyright("Copyright © 北京摩恩互联网有限责任公司 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

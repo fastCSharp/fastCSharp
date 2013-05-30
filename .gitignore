@@ -1,9 +1,8 @@
 bin/
 obj/
+@*.*
 testCase/bin/
 testCase/obj/
-@*.*
+testCase/@*.*
 *.vspscc
-*.sln
-*.suo
 *.vssscc

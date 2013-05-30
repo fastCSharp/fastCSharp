@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fastCSharp", "fastCSharp.csproj", "{CFB1DF3D-689B-4452-AC4E-1711A6840E3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testCase", "testCase\testCase.csproj", "{AF5A8D6A-78DA-41C7-AD99-FCC7E8E7C72F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testCase4", "testCase\testCase4.csproj", "{40279DD0-7644-4D44-84A6-EE3E723059E7}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs31
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = fastCSharp.csproj
+		SccLocalPath1 = .
+		SccProjectUniqueName2 = testCase\\testCase.csproj
+		SccProjectName2 = testCase
+		SccLocalPath2 = testCase
+		SccProjectUniqueName3 = testCase\\testCase4.csproj
+		SccProjectName3 = testCase
+		SccLocalPath3 = testCase
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CFB1DF3D-689B-4452-AC4E-1711A6840E3A}.Debug|x86.ActiveCfg = Debug|x86
+		{CFB1DF3D-689B-4452-AC4E-1711A6840E3A}.Debug|x86.Build.0 = Debug|x86
+		{CFB1DF3D-689B-4452-AC4E-1711A6840E3A}.Release|x86.ActiveCfg = Release|x86
+		{CFB1DF3D-689B-4452-AC4E-1711A6840E3A}.Release|x86.Build.0 = Release|x86
+		{AF5A8D6A-78DA-41C7-AD99-FCC7E8E7C72F}.Debug|x86.ActiveCfg = Debug|x86
+		{AF5A8D6A-78DA-41C7-AD99-FCC7E8E7C72F}.Debug|x86.Build.0 = Debug|x86
+		{AF5A8D6A-78DA-41C7-AD99-FCC7E8E7C72F}.Release|x86.ActiveCfg = Release|x86
+		{AF5A8D6A-78DA-41C7-AD99-FCC7E8E7C72F}.Release|x86.Build.0 = Release|x86
+		{40279DD0-7644-4D44-84A6-EE3E723059E7}.Debug|x86.ActiveCfg = Debug|x86
+		{40279DD0-7644-4D44-84A6-EE3E723059E7}.Debug|x86.Build.0 = Debug|x86
+		{40279DD0-7644-4D44-84A6-EE3E723059E7}.Release|x86.ActiveCfg = Release|x86
+		{40279DD0-7644-4D44-84A6-EE3E723059E7}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
