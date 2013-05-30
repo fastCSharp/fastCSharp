@@ -148,6 +148,14 @@ namespace fastCSharp.setup.cSharp
         /// </summary>
         public bool IsSingleRegister = true;
         /// <summary>
+        /// 是否分割客户端代码
+        /// </summary>
+        public bool IsSegmentation;
+        /// <summary>
+        /// 客户端代码复制到目标目录
+        /// </summary>
+        public string ClientSegmentationCopyPath;
+        /// <summary>
         /// 获取配置信息
         /// </summary>
         /// <param name="serviceName">TCP调用服务名称</param>
@@ -199,6 +207,13 @@ namespace fastCSharp.setup.cSharp
                 get { return Attribute; }
             }
             /// <summary>
+            /// 调用参数位置
+            /// </summary>
+            public string ParameterPart
+            {
+                get { return Attribute.IsSegmentation ? clientPart : serverPart; }
+            }
+            /// <summary>
             /// 安装下一个类型
             /// </summary>
             protected override void NextCreate()
@@ -222,11 +237,27 @@ namespace fastCSharp.setup.cSharp
 namespace " + AutoParameter.DefaultNamespace + "." + serverPart + @"
 {
 " + _partCodes_["SERVER"] + @"
-}
+}");
+                string clientCode = @"
 namespace " + AutoParameter.DefaultNamespace + "." + clientPart + @"
 {
 " + _partCodes_["CLIENT"] + @"
-}");
+}";
+                if (ServiceAttribute.IsSegmentation)
+                {
+                    string fileName = AutoParameter.ProjectPath + AutoParameter.DefaultNamespace + ".tcpServer." + Attribute.ServiceName + ".client.cs";
+                    clientCode = fastCSharp.setup.cSharp.coder.WarningCode + clientCode;
+                    if (fastCSharp.setup.cSharp.coder.WriteFile(fileName, clientCode))
+                    {
+                        if (ServiceAttribute.ClientSegmentationCopyPath != null)
+                        {
+                            string copyFileName = ServiceAttribute.ClientSegmentationCopyPath + AutoParameter.DefaultNamespace + ".tcpServer." + Attribute.ServiceName + ".client.cs";
+                            if (!fastCSharp.setup.cSharp.coder.WriteFile(copyFileName, clientCode)) fastCSharp.setup.error.Add(copyFileName + " 写入失败");
+                        }
+                        fastCSharp.setup.error.Message(fileName + " 被修改");
+                    }
+                }
+                else fastCSharp.setup.cSharp.coder.Add(clientCode);
             }
             /// <summary>
             /// 安装完成处理

@@ -378,10 +378,6 @@ namespace fastCSharp.setup.cSharp
         /// </summary>
         public bool IsClientAsynchronous;
         /// <summary>
-        /// 是否分割客户端代码
-        /// </summary>
-        public bool IsSegmentation;
-        /// <summary>
         /// 服务名称
         /// </summary>
         public virtual string ServiceName
@@ -901,13 +897,6 @@ namespace fastCSharp.setup.cSharp
             public string ClientPart
             {
                 get { return clientPart; }
-            }
-            /// <summary>
-            /// 调用参数位置
-            /// </summary>
-            public string ParameterPart
-            {
-                get { return Attribute.IsSegmentation ? clientPart : serverPart; }
             }
         }
     }

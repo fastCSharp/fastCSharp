@@ -1290,6 +1290,7 @@ namespace fastCSharp.setup.cSharp
             {
                 int index = -1;
                 object[] values = new object[memberCount];
+                object readerValue;
                 byte* isValue = stackalloc byte[memberMapSize];
                 fixedMap isValueMap = new fixedMap(isValue, memberMapSize);
                 if (memberMap.IsDefault)
@@ -1297,8 +1298,12 @@ namespace fastCSharp.setup.cSharp
                     foreach (setup.memberInfo member in members)
                     {
                         int memberIndex = member.MemberIndex;
-                        func<object, object> converter = convertSetters[memberIndex];
-                        values[memberIndex] = converter == null ? reader[++index] : converter(reader[++index]);
+                        if ((readerValue = reader[++index]) != DBNull.Value)
+                        {
+                            func<object, object> converter = convertSetters[memberIndex];
+                            values[memberIndex] = converter == null ? readerValue : converter(readerValue);
+                        }
+                        else values[memberIndex] = defaultValues[memberIndex];
                         isValueMap.Set(memberIndex);
                     }
                 }
@@ -1309,10 +1314,13 @@ namespace fastCSharp.setup.cSharp
                         if (memberMap.IsMember(member.MemberIndex))
                         {
                             int memberIndex = member.MemberIndex;
-                            func<object, object> converter = convertSetters[memberIndex];
-                            values[memberIndex] = converter == null ? reader[++index] : converter(reader[++index]);
+                            if ((readerValue = reader[++index]) != DBNull.Value)
+                            {
+                                func<object, object> converter = convertSetters[memberIndex];
+                                values[memberIndex] = converter == null ? readerValue : converter(readerValue);
+                            }
+                            else values[memberIndex] = defaultValues[memberIndex];
                             isValueMap.Set(memberIndex);
-
                         }
                     }
                 }
@@ -1415,6 +1423,10 @@ namespace fastCSharp.setup.cSharp
             /// </summary>
             private static readonly func<object, object>[] convertSetters;
             /// <summary>
+            /// 默认成员值集合
+            /// </summary>
+            private static readonly object[] defaultValues;
+            /// <summary>
             /// 设置自增ID委托
             /// </summary>
             private static readonly action<valueType, object> setIdentity;
@@ -1504,6 +1516,7 @@ namespace fastCSharp.setup.cSharp
                         func<valueType, object>[] getSqlMembers = new func<valueType, object>[memberCount];
                         convertGetters = new func<object, object>[memberCount];
                         convertSetters = new func<object, object>[memberCount];
+                        defaultValues = new object[memberCount];
                         foreach (setup.memberInfo member in members)
                         {
                             int memberIndex = member.MemberIndex;
@@ -1518,6 +1531,7 @@ namespace fastCSharp.setup.cSharp
                                 convertGetters[memberIndex] = reflection.converter.Get(member.MemberType.Type, sqlMember.SqlMemberType.Type);
                                 convertSetters[memberIndex] = reflection.converter.Get(sqlMember.SqlMemberType.Type, member.MemberType.Type);
                             }
+                            defaultValues[memberIndex] = constructor.GetNull(member.MemberType);
                             if (memberIndex == identityMemberIndex) setIdentity = memberGroup<valueType>.SetValue(member);
                         }
                         connections = new Dictionary<string, sqlTool<valueType>>();

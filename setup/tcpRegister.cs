@@ -766,6 +766,29 @@ namespace fastCSharp.setup
             public int Version;
         }
         /// <summary>
+        /// 缓存信息
+        /// </summary>
+        [fastCSharp.setup.cSharp.serialize]
+        private partial struct cache
+        {
+            /// <summary>
+            /// TCP服务信息集合
+            /// </summary>
+            public services[] ServiceCache;
+            /// <summary>
+            /// TCP服务端信息集合
+            /// </summary>
+            public host[] HostClientsKey;
+            /// <summary>
+            /// TCP服务端标识信息集合
+            /// </summary>
+            public clientId[] HostClients;
+            /// <summary>
+            /// TCP服务端口信息集合
+            /// </summary>
+            public host[] HostPorts;
+        }
+        /// <summary>
         /// TCP服务端在线检测
         /// </summary>
         private struct checkClient
@@ -836,11 +859,11 @@ namespace fastCSharp.setup
         /// <summary>
         /// TCP服务端信息集合
         /// </summary>
-        private readonly Dictionary<host, clientId> hostClients = new Dictionary<host, clientId>();
+        private Dictionary<host, clientId> hostClients;
         /// <summary>
         /// TCP服务端口信息集合
         /// </summary>
-        private readonly Dictionary<string, int> hostPorts = new Dictionary<string, int>();
+        private Dictionary<string, int> hostPorts;
         /// <summary>
         /// 下一次轮询检测时间
         /// </summary>
@@ -860,7 +883,7 @@ namespace fastCSharp.setup
         public void SetTcpServer(fastCSharp.net.tcpServerBase tcpServer)
         {
             cacheFile = fastCSharp.config.pub.Default.CachePath + tcpServer.ServiceName + @".cache";
-            serviceCache = fromCacheFile() ?? new Dictionary<string, services>();
+            fromCacheFile();
             fastCSharp.threading.timerTask.Default.Add(checkPoll, nextCheckTime = fastCSharp.date.NowTime.AddSeconds(pollCheckSeconds));
         }
         /// <summary>
@@ -1301,31 +1324,31 @@ namespace fastCSharp.setup
             while (Interlocked.CompareExchange(ref saveLock, 1, 0) != 0) Thread.Sleep(1);
             try
             {
-                services[] services = null;
+                cache cache = new cache();
                 Monitor.Enter(serviceLock);
                 try
                 {
-                    services = serviceCache.Values.getArray();
+                    cache.ServiceCache = serviceCache.Values.getArray();
+                    cache.HostClientsKey = hostClients.Keys.getArray();
+                    cache.HostClients = hostClients.Values.getArray();
+                    cache.HostPorts = hostPorts.getArray(value => new host { Host = value.Key, Port = value.Value });
                 }
                 finally { Monitor.Exit(serviceLock); }
-                if (services != null) File.WriteAllBytes(cacheFile, fastCSharp.setup.cSharp.serialize.dataSerialize.Get<services[]>(services));
+                File.WriteAllBytes(cacheFile, cache.Serialize());
             }
             finally { saveLock = 0; }
         }
         /// <summary>
         /// 从缓存文件恢复TCP服务信息集合
         /// </summary>
-        /// <returns>TCP服务信息集合</returns>
-        private Dictionary<string, services> fromCacheFile()
+        private void fromCacheFile()
         {
-            Dictionary<string, services> services = null;
+            cache cache = new cache();
             if (File.Exists(cacheFile))
             {
                 try
                 {
-                    services = fastCSharp.setup.cSharp.serialize.deSerialize.Get<services[]>(File.ReadAllBytes(cacheFile))
-                        .getDictionary(value => value.Name);
-                    //log.Default.Add(cacheFile + " " + services.Count.toString(), false, false);
+                    cache.DeSerialize(File.ReadAllBytes(cacheFile));
                 }
                 catch (Exception error)
                 {
@@ -1340,7 +1363,19 @@ namespace fastCSharp.setup
                     }
                 }
             }
-            return services;
+            Monitor.Enter(serviceLock);
+            try
+            {
+                serviceCache = cache.ServiceCache != null ? cache.ServiceCache.getDictionary(value => value.Name) : new Dictionary<string, services>();
+                hostClients = new Dictionary<host, clientId>();
+                if (cache.HostClientsKey != null)
+                {
+                    int index = 0;
+                    foreach (host host in cache.HostClientsKey) hostClients.Add(host, cache.HostClients[index++]);
+                }
+                hostPorts = cache.HostPorts != null ? cache.HostPorts.getDictionary(value => value.Host, value => value.Port) : new Dictionary<string, int>();
+            }
+            finally { Monitor.Exit(serviceLock); }
         }
     }
 }

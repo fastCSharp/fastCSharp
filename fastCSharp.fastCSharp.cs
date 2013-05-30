@@ -69193,6 +69193,782 @@ namespace fastCSharp.algorithm
             }
         }
     }
+}namespace fastCSharp.setup
+{
+    public partial class tcpRegister
+    {
+        partial struct cache
+        {
+
+            /// <summary>
+            /// 成员位图
+            /// </summary>
+            public struct memberMap : fastCSharp.setup.cSharp.IMemberMap<memberMap>
+            {
+                /// <summary>
+                /// 成员位图
+                /// </summary>
+                private uint map;
+                /// <summary>
+                /// 成员位图
+                /// </summary>
+                /// <param name="members">成员集合</param>
+                public memberMap(params member[] members)
+                {
+                    map = 0;
+                    foreach (member member in members) SetMember((int)member);
+                }
+                /// <summary>
+                /// 成员位图
+                /// </summary>
+                /// <returns>成员位图</returns>
+                public memberMap Copy()
+                {
+                    return new memberMap { map = map };
+                }
+                /// <summary>
+                /// 是否默认全部成员有效
+                /// </summary>
+                public bool IsDefault
+                {
+                    get { return map == 0; }
+                }
+                /// <summary>
+                /// 序列化字节长度
+                /// </summary>
+                public int SerializeSize
+                {
+                    get
+                    {
+                        return sizeof(uint);
+                    }
+                }
+                /// <summary>
+                /// 设置成员索引,忽略默认成员
+                /// </summary>
+                /// <param name="memberIndex">成员索引</param>
+                public void SetMember(int memberIndex)
+                {
+                    map |= 1U << (int)memberIndex;
+                }
+                /// <summary>
+                /// 清除成员索引,忽略默认成员
+                /// </summary>
+                /// <param name="memberIndex">成员索引</param>
+                public void ClearMember(int memberIndex)
+                {
+                    map &= uint.MaxValue ^ (1U << (int)memberIndex);
+                }
+                /// <summary>
+                /// 设置成员,忽略默认成员
+                /// </summary>
+                /// <param name="member">成员</param>
+                public void SetMember(member member)
+                {
+                    SetMember((int)member);
+                }
+                /// <summary>
+                /// 清除成员,忽略默认成员
+                /// </summary>
+                /// <param name="memberIndex">成员</param>
+                public void ClearMember(member member)
+                {
+                    ClearMember((int)member);
+                }
+                /// <summary>
+                /// 成员交集运算,忽略默认成员
+                /// </summary>
+                /// <param name="memberMap">成员位图</param>
+                public void And(memberMap memberMap)
+                {
+                    map &= memberMap.map;
+                }
+                /// <summary>
+                /// 成员异或运算,忽略默认成员
+                /// </summary>
+                /// <param name="memberMap">成员位图</param>
+                public void Xor(memberMap memberMap)
+                {
+                    map ^= memberMap.map;
+                }
+                /// <summary>
+                /// 成员并集运算,忽略默认成员
+                /// </summary>
+                /// <param name="memberMap">成员位图</param>
+                public void Or(memberMap memberMap)
+                {
+                    map |= memberMap.map;
+                }
+                /// <summary>
+                /// 判断成员索引是否有效
+                /// </summary>
+                /// <param name="memberIndex">成员索引</param>
+                /// <returns>成员索引是否有效</returns>
+                public bool IsMember(int memberIndex)
+                {
+                    return map == 0 || (map & (1 << memberIndex)) != 0;
+                }
+                /// <summary>
+                /// 判断成员是否有效
+                /// </summary>
+                /// <param name="member">成员</param>
+                /// <returns>成员是否有效</returns>
+                public bool IsMember(member member)
+                {
+                    return IsMember((int)member);
+                }
+                /// <summary>
+                /// 序列化
+                /// </summary>
+                /// <param name="stream">数据流</param>
+                public void Serialize(memoryStream stream)
+                {
+                    stream.Write(map);
+                }
+                /// <summary>
+                /// 序列化
+                /// </summary>
+                /// <param name="stream">数据流</param>
+                public void Serialize(System.IO.Stream stream)
+                {
+                    stream.Write(BitConverter.GetBytes(map), 0, sizeof(uint));
+                }
+                /// <summary>
+                /// 反序列化
+                /// </summary>
+                /// <param name="data">数据</param>
+                /// <returns>结束位置</returns>
+                public unsafe byte* DeSerialize(byte* data)
+                {
+                    map = *(uint*)data;
+                    return data + sizeof(uint);
+                }
+                /// <summary>
+                /// 成员获取器
+                /// </summary>
+                /// <returns>成员获取器</returns>
+                public fastCSharp.setup.cSharp.IMemberInfo MemberInfo
+                {
+                    get { return new memberInfo(); }
+                }
+            }
+
+
+            /// <summary>
+            /// 成员
+            /// </summary>
+            public enum member
+            {
+                [fastCSharp.setup.cSharp.member(Type = typeof(fastCSharp.setup.tcpRegister.services[]))]
+                ServiceCache = 0,
+                [fastCSharp.setup.cSharp.member(Type = typeof(fastCSharp.setup.tcpRegister.host[]))]
+                HostClientsKey = 1,
+                [fastCSharp.setup.cSharp.member(Type = typeof(fastCSharp.setup.tcpRegister.clientId[]))]
+                HostClients = 2,
+                [fastCSharp.setup.cSharp.member(Type = typeof(fastCSharp.setup.tcpRegister.host[]))]
+                HostPorts = 3,
+            }
+            /// <summary>
+            /// 成员信息获取器
+            /// </summary>
+            private struct memberInfo : fastCSharp.setup.cSharp.IMemberInfo
+            {
+                /// <summary>
+                /// 获取成员名称
+                /// </summary>
+                /// <param name="memberIndex">成员索引</param>
+                /// <returns>成员名称</returns>
+                public string GetName(int memberIndex)
+                {
+                    return ((member)memberIndex).ToString();
+                }
+                /// <summary>
+                /// 获取成员类型
+                /// </summary>
+                /// <param name="memberIndex">成员索引</param>
+                /// <returns>成员类型</returns>
+                public Type GetType(int memberIndex)
+                {
+                    return fastCSharp.Enum<member, fastCSharp.setup.cSharp.member>.Array(memberIndex).Type;
+                }
+                /// <summary>
+                /// 所有成员数量
+                /// </summary>
+                public int MemberCount
+                {
+                    get
+                    {
+                        return 3 + 1;
+                    }
+                }
+            }
+        }
+    }
+}namespace fastCSharp.setup
+{
+    public partial class tcpRegister
+    {
+        partial struct cache : fastCSharp.setup.cSharp.ICopy<fastCSharp.setup.tcpRegister.cache, fastCSharp.setup.tcpRegister.cache/**/.memberMap>
+        {
+            
+            /// <summary>
+            /// 成员复制
+            /// </summary>
+            /// <param name="value">被复制对象</param>
+            /// <param name="memberMap">复制成员位图</param>
+            public void CopyFrom(fastCSharp.setup.tcpRegister.cache value, fastCSharp.setup.tcpRegister.cache/**/.memberMap memberMap = default(fastCSharp.setup.tcpRegister.cache/**/.memberMap))
+            {
+                if (memberMap.IsDefault)
+                {
+                    this.ServiceCache = value.ServiceCache;
+                    this.HostClientsKey = value.HostClientsKey;
+                    this.HostClients = value.HostClients;
+                    this.HostPorts = value.HostPorts;
+                }
+                else
+                {
+                    if (memberMap.IsMember(0)) this.ServiceCache = value.ServiceCache;
+                    if (memberMap.IsMember(1)) this.HostClientsKey = value.HostClientsKey;
+                    if (memberMap.IsMember(2)) this.HostClients = value.HostClients;
+                    if (memberMap.IsMember(3)) this.HostPorts = value.HostPorts;
+                }
+            }
+            /// <summary>
+            /// 浅复制对象
+            /// </summary>
+            /// <returns>复制的对象</returns>
+            public fastCSharp.setup.tcpRegister.cache CopyMember()
+            {
+                return (fastCSharp.setup.tcpRegister.cache)MemberwiseClone();
+            }
+        }
+    }
+}namespace fastCSharp.setup
+{
+    public partial class tcpRegister
+    {
+        partial struct cache : 
+            fastCSharp.setup.cSharp.serialize.ISerialize<fastCSharp.setup.tcpRegister.cache/**/.memberMap>
+        {
+            /// <summary>
+            /// 序列化
+            /// </summary>
+            unsafe class serializer : fastCSharp.setup.cSharp.serialize.dataSerializer
+            {
+                /// <summary>
+                /// 序列化
+                /// </summary>
+                /// <param name="stream">序列化流</param>
+                /// <param name="memberMap">成员位图接口</param>
+                public serializer(memoryStream stream, fastCSharp.setup.cSharp.IMemberMap memberMap) : base(stream, memberMap) { }
+                /// <summary>
+                /// 序列化
+                /// </summary>
+                /// <param name="parentSerializer">序列化</param>
+                /// <param name="memberMap">成员位图接口</param>
+                public serializer(fastCSharp.setup.cSharp.serialize.dataSerializer parentSerializer)
+                    : base(parentSerializer, default(fastCSharp.setup.tcpRegister.cache/**/.memberMap)) { }
+                /// <summary>
+                /// 对象序列化
+                /// </summary>
+                /// <param name="value">对象</param>
+                public void Serialize(fastCSharp.setup.tcpRegister.cache value)
+                {
+                    {
+                        versionMemerMap(0);
+                        serialize(value);
+                    }
+                }
+                /// <summary>
+                /// 对象序列化
+                /// </summary>
+                /// <param name="value">对象</param>
+                private void serialize(fastCSharp.setup.tcpRegister.cache value)
+                {
+                    memoryStream.unsafer unsafeStream = dataStream.Unsafer;
+                    int length = memberMap.SerializeSize;
+                    dataStream.PrepLength(length + 16);
+                    fixed (byte* dataFixed = dataStream.Array)
+                    {
+                        write = dataFixed + dataStream.Length;
+                        fixedMap nullMap = new fixedMap(write);
+                        fastCSharp.unsafer.memory.Fill(write, (uint)0, length >> 2);
+                        write += length;
+                        if (memberMap.IsDefault)
+                        {
+                            if (value.ServiceCache == null) nullMap.Set(0);
+                            if (value.HostClients == null) nullMap.Set(2);
+                            if (value.HostClientsKey == null) nullMap.Set(1);
+                            if (value.HostPorts == null) nullMap.Set(3);
+                        }
+                        else
+                        {
+                            if (memberMap.IsMember(0))
+                            {
+                            if (value.ServiceCache == null) nullMap.Set(0);
+                            }
+                            if (memberMap.IsMember(2))
+                            {
+                            if (value.HostClients == null) nullMap.Set(2);
+                            }
+                            if (memberMap.IsMember(1))
+                            {
+                            if (value.HostClientsKey == null) nullMap.Set(1);
+                            }
+                            if (memberMap.IsMember(3))
+                            {
+                            if (value.HostPorts == null) nullMap.Set(3);
+                            }
+                        }
+                        unsafeStream.AddLength(((int)(write - dataFixed - dataStream.Length) + 3) & (int.MaxValue - 3));
+                    }
+                    if (memberMap.IsDefault)
+                    {
+                        {
+                            fastCSharp.setup.tcpRegister.services[] enumerable = value.ServiceCache;
+                            if (checkPoint(enumerable))
+                            {
+                                fastCSharp.setup.tcpRegister.services[] array = enumerable;
+                                iSerializeArrayNotNullNoPoint(array);
+
+                            }
+                        }
+                        {
+                            fastCSharp.setup.tcpRegister.clientId[] enumerable = value.HostClients;
+                            if (checkPoint(enumerable))
+                            {
+                                fastCSharp.setup.tcpRegister.clientId[] array = enumerable;
+                                iSerializeArrayNotNullNoPoint(array);
+
+                            }
+                        }
+                        {
+                            fastCSharp.setup.tcpRegister.host[] enumerable = value.HostClientsKey;
+                            if (checkPoint(enumerable))
+                            {
+                                fastCSharp.setup.tcpRegister.host[] array = enumerable;
+                                iSerializeArrayNotNullNoPoint(array);
+
+                            }
+                        }
+                        {
+                            fastCSharp.setup.tcpRegister.host[] enumerable = value.HostPorts;
+                            if (checkPoint(enumerable))
+                            {
+                                fastCSharp.setup.tcpRegister.host[] array = enumerable;
+                                iSerializeArrayNotNullNoPoint(array);
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (memberMap.IsMember(0))
+                        {
+                        {
+                            fastCSharp.setup.tcpRegister.services[] enumerable = value.ServiceCache;
+                            if (checkPoint(enumerable))
+                            {
+                                fastCSharp.setup.tcpRegister.services[] array = enumerable;
+                                iSerializeArrayNotNullNoPoint(array);
+
+                            }
+                        }
+                        }
+                        if (memberMap.IsMember(2))
+                        {
+                        {
+                            fastCSharp.setup.tcpRegister.clientId[] enumerable = value.HostClients;
+                            if (checkPoint(enumerable))
+                            {
+                                fastCSharp.setup.tcpRegister.clientId[] array = enumerable;
+                                iSerializeArrayNotNullNoPoint(array);
+
+                            }
+                        }
+                        }
+                        if (memberMap.IsMember(1))
+                        {
+                        {
+                            fastCSharp.setup.tcpRegister.host[] enumerable = value.HostClientsKey;
+                            if (checkPoint(enumerable))
+                            {
+                                fastCSharp.setup.tcpRegister.host[] array = enumerable;
+                                iSerializeArrayNotNullNoPoint(array);
+
+                            }
+                        }
+                        }
+                        if (memberMap.IsMember(3))
+                        {
+                        {
+                            fastCSharp.setup.tcpRegister.host[] enumerable = value.HostPorts;
+                            if (checkPoint(enumerable))
+                            {
+                                fastCSharp.setup.tcpRegister.host[] array = enumerable;
+                                iSerializeArrayNotNullNoPoint(array);
+
+                            }
+                        }
+                        }
+                    }
+                }
+            }
+            /// <summary>
+            /// 对象序列化
+            /// </summary>
+            /// <returns>序列化数据</returns>
+            public byte[] Serialize()
+            {
+                using (memoryStream stream = new memoryStream())
+                {
+                    Serialize(stream, default(fastCSharp.setup.tcpRegister.cache/**/.memberMap));
+                    return stream.ToArray();
+                }
+            }
+            /// <summary>
+            /// 对象序列化
+            /// </summary>
+            /// <param name="stream">数据流</param>
+            public void Serialize(memoryStream stream)
+            {
+                Serialize(stream, default(fastCSharp.setup.tcpRegister.cache/**/.memberMap));
+            }
+            /// <summary>
+            /// 对象序列化
+            /// </summary>
+            /// <param name="stream">数据流</param>
+            /// <param name="memberMap">成员位图接口</param>
+            public void Serialize(memoryStream stream, fastCSharp.setup.tcpRegister.cache/**/.memberMap memberMap)
+            {
+                serializer serializer = new serializer(stream, memberMap);
+                serializer.Serialize(this);
+                serializer.Finally();
+            }
+            /// <summary>
+            /// 对象序列化
+            /// </summary>
+            /// <param name="serializer">对象序列化器</param>
+            public void Serialize(fastCSharp.setup.cSharp.serialize.dataSerializer parentSerializer)
+            {
+                new serializer(parentSerializer).Serialize(this);
+            }
+            /// <summary>
+            /// 对象反序列化
+            /// </summary>
+            unsafe class deSerializer : fastCSharp.setup.cSharp.serialize.deSerializer
+            {
+                /// <summary>
+                /// 成员位图接口
+                /// </summary>
+                public fastCSharp.setup.tcpRegister.cache/**/.memberMap MemberMap;
+                /// <summary>
+                /// 对象反序列化
+                /// </summary>
+                /// <param name="data">序列化数据</param>
+                public deSerializer(byte[] data) : base(data) { }
+                /// <summary>
+                /// 对象反序列化
+                /// </summary>
+                /// <param name="parentDeSerializer">对象反序列化器</param>
+                public deSerializer(fastCSharp.setup.cSharp.serialize.deSerializer parentDeSerializer)
+                    : base(parentDeSerializer) { }
+                /// <summary>
+                /// 反序列化
+                /// </summary>
+                /// <param name="value">反序列化目标对象</param>
+                /// <param name="startIndex">数据起始位置</param>
+                /// <returns>数据对象</returns>
+                public fastCSharp.setup.tcpRegister.cache DeSerialize(fastCSharp.setup.tcpRegister.cache value, int startIndex)
+                {
+                    fixed (byte* dataFixed = data)
+                    {
+                        this.dataFixed = dataFixed;
+                        dataStart = read = dataFixed + startIndex;
+                        dataVersion = *(int*)read;
+                        if (dataVersion != (int)fastCSharp.setup.cSharp.serializeVersion.serialize)
+                        {
+                            fastCSharp.log.Default.Throw("序列化格式版本号不匹配 fastCSharp.setup.cSharp.serializeVersion.serialize[" + ((int)fastCSharp.setup.cSharp.serializeVersion.serialize).toString() + "] != " + dataVersion.toString(), true, false);
+                        }
+                        dataVersion = *(int*)(read += sizeof(int));
+                        {
+                            versionMemberMap();
+                            value = DeSerializeData(value);
+                            checkEnd();
+                            return value;
+                        }
+                    }
+                }
+                /// <summary>
+                /// 版本号+成员位图接口
+                /// </summary>
+                protected override void versionMemberMap()
+                {
+                    if (dataVersion != 0)
+                    {
+                        fastCSharp.log.Default.Throw("序列化版本号错误 0 != " + dataVersion.toString(), true, false);
+                    }
+                    read = MemberMap.DeSerialize(read += sizeof(int));
+                }
+                /// <summary>
+                /// 反序列化
+                /// </summary>
+                /// <param name="value">反序列化目标对象</param>
+                /// <returns>数据对象</returns>
+                public fastCSharp.setup.tcpRegister.cache DeSerialize(fastCSharp.setup.tcpRegister.cache value)
+                {
+                    dataVersion = *(int*)read;
+                    versionMemberMap();
+                    return DeSerializeData(value);
+                }
+                /// <summary>
+                /// 反序列化
+                /// </summary>
+                /// <param name="value">反序列化目标对象</param>
+                /// <returns>数据对象</returns>
+                public fastCSharp.setup.tcpRegister.cache DeSerializeData(fastCSharp.setup.tcpRegister.cache value)
+                {
+                    fixedMap nullMap = new fixedMap(read);
+                    read += MemberMap.SerializeSize;
+                    if (MemberMap.IsDefault)
+                    {
+                        if (nullMap.Get(0)) value.ServiceCache = default(fastCSharp.setup.tcpRegister.services[]);
+                        if (nullMap.Get(2)) value.HostClients = default(fastCSharp.setup.tcpRegister.clientId[]);
+                        if (nullMap.Get(1)) value.HostClientsKey = default(fastCSharp.setup.tcpRegister.host[]);
+                        if (nullMap.Get(3)) value.HostPorts = default(fastCSharp.setup.tcpRegister.host[]);
+                    }
+                    else
+                    {
+                        if (MemberMap.IsMember(0))
+                        {
+                        if (nullMap.Get(0)) value.ServiceCache = default(fastCSharp.setup.tcpRegister.services[]);
+                        }
+                        if (MemberMap.IsMember(2))
+                        {
+                        if (nullMap.Get(2)) value.HostClients = default(fastCSharp.setup.tcpRegister.clientId[]);
+                        }
+                        if (MemberMap.IsMember(1))
+                        {
+                        if (nullMap.Get(1)) value.HostClientsKey = default(fastCSharp.setup.tcpRegister.host[]);
+                        }
+                        if (MemberMap.IsMember(3))
+                        {
+                        if (nullMap.Get(3)) value.HostPorts = default(fastCSharp.setup.tcpRegister.host[]);
+                        }
+                    }
+                    int length = (int)(read - nullMap.Map);
+                    if ((length & 3) != 0) read += -length & 3;
+                    if (MemberMap.IsDefault)
+                    {
+                        if (!nullMap.Get(0))
+                        {
+                            {
+                                object reference = getPoint();
+                                if (reference != null) value.ServiceCache = (fastCSharp.setup.tcpRegister.services[])reference;
+                                else
+                                {
+                                    length = *(int*)read;
+                                    fastCSharp.setup.tcpRegister.services[] enumerable = new fastCSharp.setup.tcpRegister.services[length];
+                                    points.Add(-(int)(read - dataStart), enumerable);
+                                    read += sizeof(int);
+                                    fastCSharp.setup.tcpRegister.services[] array = new fastCSharp.setup.tcpRegister.services[length];
+                                    iSerializeArrayNotNullNoPoint(array);
+
+                                    Array.Copy(array, 0, enumerable, 0, array.Length);
+                                    value.ServiceCache = enumerable;
+                                }
+                            }
+                        }
+                        if (!nullMap.Get(2))
+                        {
+                            {
+                                object reference = getPoint();
+                                if (reference != null) value.HostClients = (fastCSharp.setup.tcpRegister.clientId[])reference;
+                                else
+                                {
+                                    length = *(int*)read;
+                                    fastCSharp.setup.tcpRegister.clientId[] enumerable = new fastCSharp.setup.tcpRegister.clientId[length];
+                                    points.Add(-(int)(read - dataStart), enumerable);
+                                    read += sizeof(int);
+                                    fastCSharp.setup.tcpRegister.clientId[] array = new fastCSharp.setup.tcpRegister.clientId[length];
+                                    iSerializeArrayNotNullNoPoint(array);
+
+                                    Array.Copy(array, 0, enumerable, 0, array.Length);
+                                    value.HostClients = enumerable;
+                                }
+                            }
+                        }
+                        if (!nullMap.Get(1))
+                        {
+                            {
+                                object reference = getPoint();
+                                if (reference != null) value.HostClientsKey = (fastCSharp.setup.tcpRegister.host[])reference;
+                                else
+                                {
+                                    length = *(int*)read;
+                                    fastCSharp.setup.tcpRegister.host[] enumerable = new fastCSharp.setup.tcpRegister.host[length];
+                                    points.Add(-(int)(read - dataStart), enumerable);
+                                    read += sizeof(int);
+                                    fastCSharp.setup.tcpRegister.host[] array = new fastCSharp.setup.tcpRegister.host[length];
+                                    iSerializeArrayNotNullNoPoint(array);
+
+                                    Array.Copy(array, 0, enumerable, 0, array.Length);
+                                    value.HostClientsKey = enumerable;
+                                }
+                            }
+                        }
+                        if (!nullMap.Get(3))
+                        {
+                            {
+                                object reference = getPoint();
+                                if (reference != null) value.HostPorts = (fastCSharp.setup.tcpRegister.host[])reference;
+                                else
+                                {
+                                    length = *(int*)read;
+                                    fastCSharp.setup.tcpRegister.host[] enumerable = new fastCSharp.setup.tcpRegister.host[length];
+                                    points.Add(-(int)(read - dataStart), enumerable);
+                                    read += sizeof(int);
+                                    fastCSharp.setup.tcpRegister.host[] array = new fastCSharp.setup.tcpRegister.host[length];
+                                    iSerializeArrayNotNullNoPoint(array);
+
+                                    Array.Copy(array, 0, enumerable, 0, array.Length);
+                                    value.HostPorts = enumerable;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (MemberMap.IsMember(0))
+                        {
+                        if (!nullMap.Get(0))
+                        {
+                            {
+                                object reference = getPoint();
+                                if (reference != null) value.ServiceCache = (fastCSharp.setup.tcpRegister.services[])reference;
+                                else
+                                {
+                                    length = *(int*)read;
+                                    fastCSharp.setup.tcpRegister.services[] enumerable = new fastCSharp.setup.tcpRegister.services[length];
+                                    points.Add(-(int)(read - dataStart), enumerable);
+                                    read += sizeof(int);
+                                    fastCSharp.setup.tcpRegister.services[] array = new fastCSharp.setup.tcpRegister.services[length];
+                                    iSerializeArrayNotNullNoPoint(array);
+
+                                    Array.Copy(array, 0, enumerable, 0, array.Length);
+                                    value.ServiceCache = enumerable;
+                                }
+                            }
+                        }
+                        }
+                        if (MemberMap.IsMember(2))
+                        {
+                        if (!nullMap.Get(2))
+                        {
+                            {
+                                object reference = getPoint();
+                                if (reference != null) value.HostClients = (fastCSharp.setup.tcpRegister.clientId[])reference;
+                                else
+                                {
+                                    length = *(int*)read;
+                                    fastCSharp.setup.tcpRegister.clientId[] enumerable = new fastCSharp.setup.tcpRegister.clientId[length];
+                                    points.Add(-(int)(read - dataStart), enumerable);
+                                    read += sizeof(int);
+                                    fastCSharp.setup.tcpRegister.clientId[] array = new fastCSharp.setup.tcpRegister.clientId[length];
+                                    iSerializeArrayNotNullNoPoint(array);
+
+                                    Array.Copy(array, 0, enumerable, 0, array.Length);
+                                    value.HostClients = enumerable;
+                                }
+                            }
+                        }
+                        }
+                        if (MemberMap.IsMember(1))
+                        {
+                        if (!nullMap.Get(1))
+                        {
+                            {
+                                object reference = getPoint();
+                                if (reference != null) value.HostClientsKey = (fastCSharp.setup.tcpRegister.host[])reference;
+                                else
+                                {
+                                    length = *(int*)read;
+                                    fastCSharp.setup.tcpRegister.host[] enumerable = new fastCSharp.setup.tcpRegister.host[length];
+                                    points.Add(-(int)(read - dataStart), enumerable);
+                                    read += sizeof(int);
+                                    fastCSharp.setup.tcpRegister.host[] array = new fastCSharp.setup.tcpRegister.host[length];
+                                    iSerializeArrayNotNullNoPoint(array);
+
+                                    Array.Copy(array, 0, enumerable, 0, array.Length);
+                                    value.HostClientsKey = enumerable;
+                                }
+                            }
+                        }
+                        }
+                        if (MemberMap.IsMember(3))
+                        {
+                        if (!nullMap.Get(3))
+                        {
+                            {
+                                object reference = getPoint();
+                                if (reference != null) value.HostPorts = (fastCSharp.setup.tcpRegister.host[])reference;
+                                else
+                                {
+                                    length = *(int*)read;
+                                    fastCSharp.setup.tcpRegister.host[] enumerable = new fastCSharp.setup.tcpRegister.host[length];
+                                    points.Add(-(int)(read - dataStart), enumerable);
+                                    read += sizeof(int);
+                                    fastCSharp.setup.tcpRegister.host[] array = new fastCSharp.setup.tcpRegister.host[length];
+                                    iSerializeArrayNotNullNoPoint(array);
+
+                                    Array.Copy(array, 0, enumerable, 0, array.Length);
+                                    value.HostPorts = enumerable;
+                                }
+                            }
+                        }
+                        }
+                    }
+                    return value;
+                }
+            }
+            /// <summary>
+            /// 反序列化
+            /// </summary>
+            /// <param name="data">序列化数据</param>
+            public bool DeSerialize(byte[] data)
+            {
+                return DeSerialize(data, 0, out deSerializer.OutEndIndex);
+            }
+            /// <summary>
+            /// 反序列化
+            /// </summary>
+            /// <param name="data">序列化数据</param>
+            /// <param name="startIndex">起始位置</param>
+            /// <param name="endIndex">结束位置</param>
+            public bool DeSerialize(byte[] data, int startIndex, out int endIndex)
+            {
+                deSerializer deSerializer = new deSerializer(data);
+                fastCSharp.setup.tcpRegister.cache value = deSerializer.DeSerialize(this, startIndex);
+                
+                CopyFrom(value);
+                endIndex = deSerializer.EndIndex;
+                return endIndex <= data.Length;
+            }
+            /// <summary>
+            /// 反序列化
+            /// </summary>
+            /// <param name="parentDeSerializer">对象反序列化器</param>
+            public unsafe void DeSerialize(fastCSharp.setup.cSharp.serialize.deSerializer parentDeSerializer)
+            {
+                deSerializer deSerializer = new deSerializer(parentDeSerializer);
+                
+                fastCSharp.setup.tcpRegister.cache value = deSerializer.DeSerialize(this);
+                
+                CopyFrom(value);
+                parentDeSerializer.SetRead(deSerializer);
+            }
+        }
+    }
 }namespace fastCSharp.config
 {
 

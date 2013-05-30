@@ -678,9 +678,20 @@ namespace fastCSharp.setup.cSharp
                 get { return ServiceAttribute.VerifyType.fullName(); }
             }
             /// <summary>
+            /// 调用参数位置
+            /// </summary>
+            public string ParameterPart
+            {
+                get { return ServiceAttribute.IsSegmentation ? clientPart : serverPart; }
+            }
+            /// <summary>
             /// TCP服务器端配置集合
             /// </summary>
             private static readonly Dictionary<string, tcpServer> serviceAttributes = new Dictionary<string, tcpServer>();
+            /// <summary>
+            /// TCP客户端调用代码集合
+            /// </summary>
+            private static readonly Dictionary<string, stringBuilder> clientCallCodes = new Dictionary<string, stringBuilder>();
             /// <summary>
             /// 安装下一个类型
             /// </summary>
@@ -703,7 +714,20 @@ namespace fastCSharp.setup.cSharp
                         IsTypeGenericParameterName = type.Type.IsGenericType
                     });
                 methodIndexs.Add(MethodIndexs);
-                create(true);
+                if (ServiceAttribute.IsSegmentation)
+                {
+                    stringBuilder clientCallCode;
+                    if (!clientCallCodes.TryGetValue(Attribute.ServiceName, out clientCallCode))
+                    {
+                        clientCallCodes.Add(Attribute.ServiceName, clientCallCode = new stringBuilder());
+                    }
+                    definition definition = new definition(type, true, false);
+                    _code_.Empty();
+                    create(false);
+                    fastCSharp.setup.cSharp.coder.Add(GetType(), CodeType.Type, definition.Start + _partCodes_["SERVERCALL"] + definition.End);
+                    clientCallCode.Add(definition.Start + _partCodes_["CLIENTCALL"] + definition.End);
+                }
+                else create(true);
             }
             /// <summary>
             /// 是否所有类型
@@ -729,11 +753,29 @@ namespace fastCSharp.setup.cSharp
 namespace " + AutoParameter.DefaultNamespace + "." + serverPart + @"
 {
 " + _partCodes_["SERVER"] + @"
-}
+}");
+                        string clientCode = @"
 namespace " + AutoParameter.DefaultNamespace + "." + clientPart + @"
 {
 " + _partCodes_["CLIENT"] + @"
-}");
+}";
+                        if (ServiceAttribute.IsSegmentation)
+                        {
+                            stringBuilder clientCallCode = clientCallCodes[Attribute.ServiceName];
+                            clientCallCode.Add(clientCode);
+                            string fileName = AutoParameter.ProjectPath + AutoParameter.DefaultNamespace + ".tcpCall." + Attribute.ServiceName + ".client.cs";
+                            clientCode = fastCSharp.setup.cSharp.coder.WarningCode + clientCallCode.ToString();
+                            if (fastCSharp.setup.cSharp.coder.WriteFile(fileName, clientCode))
+                            {
+                                if (ServiceAttribute.ClientSegmentationCopyPath != null)
+                                {
+                                    string copyFileName = ServiceAttribute.ClientSegmentationCopyPath + AutoParameter.DefaultNamespace + ".tcpCall." + Attribute.ServiceName + ".client.cs";
+                                    if (!fastCSharp.setup.cSharp.coder.WriteFile(copyFileName, clientCode)) fastCSharp.setup.error.Add(copyFileName + " 写入失败");
+                                }
+                                fastCSharp.setup.error.Message(fileName + " 被修改");
+                            }
+                        }
+                        else fastCSharp.setup.cSharp.coder.Add(clientCode);
                     }
                 }
             }

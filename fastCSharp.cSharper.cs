@@ -7958,7 +7958,7 @@ namespace fastCSharp.setup.cSharp
             {
             _if_ = false;
                 {
-                    fastCSharp.setup.cSharp.tcpCall _value3_ = _value2_.Attribute;
+                    fastCSharp.setup.cSharp.tcpServer _value3_ = _value2_.ServiceAttribute;
                     if (_value3_ != null)
                     {
                 if (!(bool)_value3_.IsSegmentation)
@@ -11206,7 +11206,7 @@ namespace fastCSharp.setup.cSharp
         {");
             _if_ = false;
                 {
-                    fastCSharp.setup.cSharp.tcpCall _value1_ = Attribute;
+                    fastCSharp.setup.cSharp.tcpServer _value1_ = ServiceAttribute;
                     if (_value1_ != null)
                     {
                     if (_value1_.IsSegmentation)
@@ -11443,7 +11443,7 @@ namespace fastCSharp.setup.cSharp
                 {");
             _if_ = false;
                 {
-                    fastCSharp.setup.cSharp.tcpCall _value1_ = Attribute;
+                    fastCSharp.setup.cSharp.tcpServer _value1_ = ServiceAttribute;
                     if (_value1_ != null)
                     {
                 if (!(bool)_value1_.IsSegmentation)
@@ -11499,7 +11499,7 @@ namespace fastCSharp.setup.cSharp
             _code_.Add(@""");");
             _if_ = false;
                 {
-                    fastCSharp.setup.cSharp.tcpCall _value1_ = Attribute;
+                    fastCSharp.setup.cSharp.tcpServer _value1_ = ServiceAttribute;
                     if (_value1_ != null)
                     {
                     if (_value1_.IsSegmentation)
@@ -14132,6 +14132,7 @@ namespace fastCSharp.setup.cSharp
             _code_.Add(@"/**/.memberMap))
                 {
                     int index = -1;
+                    object value;
                     if (memberMap.IsDefault)
                     {");
                 {
@@ -14145,6 +14146,7 @@ namespace fastCSharp.setup.cSharp
                         foreach (fastCSharp.setup.cSharp.sqlTable.cSharp.sqlMemberInfo _value2_ in _value1_)
                         {
             _code_.Add(@"
+                        value = reader[++index];
                         ");
                 {
                     fastCSharp.setup.memberInfo _value3_ = default(fastCSharp.setup.memberInfo);
@@ -14159,7 +14161,31 @@ namespace fastCSharp.setup.cSharp
             _code_.Add(@"
                         this.");
             _code_.Add(_value3_.MemberName);
-            _code_.Add(@" = (");
+            _code_.Add(@" = ");
+            _if_ = false;
+                {
+                    fastCSharp.setup.sqlMember _value4_ = _value2_.Value;
+                    if (_value4_ != null)
+                    {
+                    if (_value4_.IsNull)
+                    {
+                        _if_ = true;
+                    }
+                }
+                }
+            if (_if_)
+            {
+            _code_.Add(@"value == DBNull.Value ? default(");
+                {
+                    fastCSharp.setup.memberType _value4_ = _value3_.MemberType;
+                    if (_value4_ != null)
+                    {
+            _code_.Add(_value4_.FullName);
+                    }
+                }
+            _code_.Add(@") : ");
+            }
+            _code_.Add(@"(");
                 {
                     fastCSharp.setup.memberType _value4_ = _value3_.MemberType;
                     if (_value4_ != null)
@@ -14191,7 +14217,7 @@ namespace fastCSharp.setup.cSharp
             _code_.Add(@")");
             }
                 }
-            _code_.Add(@"reader[++index];");
+            _code_.Add(@"value;");
                             ++_loopIndex_;
                         }
                         _loopIndex_ = _loopIndex1_;
@@ -14227,9 +14253,36 @@ namespace fastCSharp.setup.cSharp
             _code_.Add(@"
                         if (memberMap.IsMember(");
             _code_.Add(_value3_.MemberIndex.ToString());
-            _code_.Add(@")) this.");
+            _code_.Add(@"))
+                        {
+                            value = reader[++index];
+                            this.");
             _code_.Add(_value3_.MemberName);
-            _code_.Add(@" = (");
+            _code_.Add(@" = ");
+            _if_ = false;
+                {
+                    fastCSharp.setup.sqlMember _value4_ = _value2_.Value;
+                    if (_value4_ != null)
+                    {
+                    if (_value4_.IsNull)
+                    {
+                        _if_ = true;
+                    }
+                }
+                }
+            if (_if_)
+            {
+            _code_.Add(@"value == DBNull.Value ? default(");
+                {
+                    fastCSharp.setup.memberType _value4_ = _value3_.MemberType;
+                    if (_value4_ != null)
+                    {
+            _code_.Add(_value4_.FullName);
+                    }
+                }
+            _code_.Add(@") : ");
+            }
+            _code_.Add(@"(");
                 {
                     fastCSharp.setup.memberType _value4_ = _value3_.MemberType;
                     if (_value4_ != null)
@@ -14261,7 +14314,8 @@ namespace fastCSharp.setup.cSharp
             _code_.Add(@")");
             }
                 }
-            _code_.Add(@"reader[++index];");
+            _code_.Add(@"value;
+                        }");
                             ++_loopIndex_;
                         }
                         _loopIndex_ = _loopIndex1_;

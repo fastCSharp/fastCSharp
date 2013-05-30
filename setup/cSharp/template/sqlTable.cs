@@ -73,18 +73,24 @@ namespace fastCSharp.setup.cSharp.template
                 public void Set(System.Data.Common.DbDataReader reader, @type.FullName/**/.memberMap memberMap = default(@type.FullName/**/.memberMap))
                 {
                     int index = -1;
+                    object value;
                     if (memberMap.IsDefault)
                     {
                         #region LOOP SqlMembers
+                        value = reader[++index];
                         /*PUSH:Key*/
-                        this.@MemberName = (@MemberType.FullName)/*PUSH:Key*//*PUSH:Value.SqlMemberType*/(@FullName)/*PUSH:Value.SqlMemberType*/reader[++index];
+                        this.@MemberName = /*IF:.Value.IsNull*/value == DBNull.Value ? default(@MemberType.FullName) : /*IF:.Value.IsNull*/(@MemberType.FullName)/*PUSH:Key*//*PUSH:Value.SqlMemberType*/(@FullName)/*PUSH:Value.SqlMemberType*/value;
                         #endregion LOOP SqlMembers
                     }
                     else
                     {
                         #region LOOP SqlMembers
                         /*PUSH:Key*/
-                        if (memberMap.IsMember(@MemberIndex)) this.@MemberName = (@MemberType.FullName)/*PUSH:Key*//*PUSH:Value.SqlMemberType*/(@FullName)/*PUSH:Value.SqlMemberType*/reader[++index];
+                        if (memberMap.IsMember(@MemberIndex))
+                        {
+                            value = reader[++index];
+                            this.@MemberName = /*IF:.Value.IsNull*/value == DBNull.Value ? default(@MemberType.FullName) : /*IF:.Value.IsNull*/(@MemberType.FullName)/*PUSH:Key*//*PUSH:Value.SqlMemberType*/(@FullName)/*PUSH:Value.SqlMemberType*/value;
+                        }
                         #endregion LOOP SqlMembers
                     }
                 }

@@ -66,13 +66,13 @@ namespace fastCSharp.setup.cSharp.template
                 public static @MethodReturnType.FullName /*PUSH:Method*/@MethodGenericName/*PUSH:Method*/(/*LOOP:MethodParameters*/@ParameterTypeRefName @ParameterJoinName/*LOOP:MethodParameters*/)
                 {
                     #region NOT IsAsynchronousCallback
-                    #region NOT Attribute.IsSegmentation
+                    #region NOT ServiceAttribute.IsSegmentation
                     if (/*PUSH:AutoParameter*/@DefaultNamespace/*PUSH:AutoParameter*/.@ClientPart/**/.@ServiceName/**/.defaultTcpServer.IsServer)
                     {
                         /*IF:MethodIsReturn*/
                         return /*IF:MethodIsReturn*//*NOTE*/(FullName)/*NOTE*/@type.FullName/**/.@GenericTypeServerName/*PUSH:Method*/.@MethodIndexGenericName/*PUSH:Method*/(/*LOOP:MethodParameters*/@ParameterJoinRefName/*LOOP:MethodParameters*/);
                     }
-                    #endregion NOT Attribute.IsSegmentation
+                    #endregion NOT ServiceAttribute.IsSegmentation
                     #endregion NOT IsAsynchronousCallback
                     #region IF IsInputParameter
                     /*PUSH:AutoParameter*/
@@ -454,12 +454,12 @@ namespace fastCSharp.setup.cSharp.template
         #region PART CLIENT
         public/*NOTE*/ partial/*NOTE*/ class @ServiceName
         {
-            #region IF Attribute.IsSegmentation
+            #region IF ServiceAttribute.IsSegmentation
             #region LOOP MethodIndexs
             #region FROMNAME Parameter
             #endregion FROMNAME Parameter
             #endregion LOOP MethodIndexs
-            #endregion IF Attribute.IsSegmentation
+            #endregion IF ServiceAttribute.IsSegmentation
             /// <summary>
             /// 默认TCP调用服务器端配置信息
             /// </summary>
@@ -475,9 +475,9 @@ namespace fastCSharp.setup.cSharp.template
                 public static readonly fastCSharp.setup.cSharp.tcpCall.clientPool ClientPool;
                 static clientPool()
                 {
-                    #region NOT Attribute.IsSegmentation
+                    #region NOT ServiceAttribute.IsSegmentation
                     if (defaultTcpServer.IsServer) fastCSharp.log.Default.Add("请确认 @ServiceName 服务器端是否本地调用");
-                    #endregion NOT Attribute.IsSegmentation
+                    #endregion NOT ServiceAttribute.IsSegmentation
                     ClientPool = new fastCSharp.setup.cSharp.tcpCall.clientPool(defaultTcpServer, true, "@ServiceName"/*IF:ServiceAttribute.VerifyType*/, new @TcpVerifyType()/*IF:ServiceAttribute.VerifyType*/);
                 }
             }
@@ -491,9 +491,9 @@ namespace fastCSharp.setup.cSharp.template
             static @ServiceName()
             {
                 defaultTcpServer = fastCSharp.setup.cSharp.tcpServer.GetConfig("@ServiceName");
-                #region IF Attribute.IsSegmentation
+                #region IF ServiceAttribute.IsSegmentation
                 defaultTcpServer.IsServer = false;
-                #endregion IF Attribute.IsSegmentation
+                #endregion IF ServiceAttribute.IsSegmentation
             }
         }
         #endregion PART CLIENT
