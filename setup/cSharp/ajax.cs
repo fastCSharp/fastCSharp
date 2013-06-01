@@ -1142,6 +1142,10 @@ namespace fastCSharp.setup.cSharp
             /// </summary>
             private Dictionary<string, jsonNode> currentDictionary;
             /// <summary>
+            /// 当前深度
+            /// </summary>
+            private int depth;
+            /// <summary>
             /// 解析JSON字符串
             /// </summary>
             /// <param name="json">JSON字符串</param>
@@ -1193,6 +1197,14 @@ namespace fastCSharp.setup.cSharp
                     unknownValue();
                 }
                 return value();
+            }
+            /// <summary>
+            /// 检测深度
+            /// </summary>
+            private void checkDepth()
+            {
+                if (++depth == fastCSharp.config.web.Default.MaxParseJsonDepth) log.Default.Throw(@"JSON解析深度过大
+" + json, false, false);
             }
             /// <summary>
             /// 解析JSON值
@@ -1418,6 +1430,7 @@ namespace fastCSharp.setup.cSharp
             /// <returns>数组节点</returns>
             private jsonNode list()
             {
+                checkDepth();
                 ++current;
                 list<jsonNode> values = new list<jsonNode>();
                 jsonNode value = default(jsonNode);
@@ -1434,6 +1447,7 @@ namespace fastCSharp.setup.cSharp
                             if (endValue == ']')
                             {
                                 ++current;
+                                --depth;
                                 return new jsonNode(values);
                             }
                             unknownValue();
@@ -1442,17 +1456,20 @@ namespace fastCSharp.setup.cSharp
                         {
                             ++current;
                             if (listValue(ref value)) continue;
+                            --depth;
                             return new jsonNode(values);
                         }
                         if (*current == ']')
                         {
                             ++current;
+                            --depth;
                             return new jsonNode(values);
                         }
                         unknownValue();
                     }
                     while (true);
                 }
+                --depth;
                 return new jsonNode(values);
             }
             /// <summary>
@@ -1532,6 +1549,7 @@ namespace fastCSharp.setup.cSharp
             /// <returns>键值集合节点</returns>
             private jsonNode dictionary()
             {
+                checkDepth();
                 ++current;
                 Dictionary<string, jsonNode> save = currentDictionary, dictionary = currentDictionary = new Dictionary<string, jsonNode>();
                 if (nameValue())
@@ -1547,6 +1565,7 @@ namespace fastCSharp.setup.cSharp
                             {
                                 ++current;
                                 currentDictionary = save;
+                                --depth;
                                 return new jsonNode(dictionary);
                             }
                             unknownValue();
@@ -1556,12 +1575,14 @@ namespace fastCSharp.setup.cSharp
                             ++current;
                             if (nameValue()) continue;
                             currentDictionary = save;
+                            --depth;
                             return new jsonNode(dictionary);
                         }
                         if (*current == '}')
                         {
                             ++current;
                             currentDictionary = save;
+                            --depth;
                             return new jsonNode(dictionary);
                         }
                         unknownValue();
@@ -1569,6 +1590,7 @@ namespace fastCSharp.setup.cSharp
                     while (true);
                 }
                 currentDictionary = save;
+                --depth;
                 return new jsonNode(dictionary);
             }
             /// <summary>

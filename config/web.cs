@@ -53,6 +53,17 @@ namespace fastCSharp.config
             get { return parseJavascriptMinTime; }
         }
         /// <summary>
+        /// JSON解析最大深度
+        /// </summary>
+        private int maxParseJsonDepth = 1024;
+        /// <summary>
+        /// JSON解析最大深度
+        /// </summary>
+        public int MaxParseJsonDepth
+        {
+            get { return maxParseJsonDepth; }
+        }
+        /// <summary>
         /// 网站模块相关参数
         /// </summary>
         private web()
